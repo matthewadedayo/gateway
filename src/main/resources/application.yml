@@ -1,0 +1,50 @@
+server:
+  port: 9595
+spring:
+  application:
+    name: gateway-service 
+#ribbon:
+#  ReadTimeout: 60000
+#hystrix:
+#  command:
+#    default:
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 130000
+#eureka:
+#  instance:
+#    hostname: localhost
+#    port: 8761
+#  client:
+#    serviceUrl:
+#      defaultZone: http://${eureka.instance.hostname}:${eureka.instance.port}/eureka/
+#    instance:
+#      preferIpAddress: true
+
+
+zuul:
+  sensitiveHeaders: Cookie,Set-Cookie
+  ignoredServices: "*"
+  ribbon:
+    eager-load:
+      enabled: true    
+  routes:
+    auth-service:
+      path: /auth/**
+      serviceId: AUTH-SERVICE
+      stripPrefix: true  
+    customer-service:
+      #sensitiveHeaders:  
+      path: /customer/**
+      serviceId: CUSTOMER-SERVICE
+      stripPrefix: true
+    account-service:
+      #sensitiveHeaders:
+      path: /account/**
+      serviceId: ACCOUNT-SERVICE
+      stripPrefix: true
+    
+
+      #      ignored-headers: Access-Control-Allow-Credentials, Access-Control-Allow-Origin
+
